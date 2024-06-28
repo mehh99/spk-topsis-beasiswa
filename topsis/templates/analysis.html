@@ -1,0 +1,196 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<form id="filterForm" method="GET" action="{% url 'analyze' %}">
+    <!-- Pilihan tahun -->
+    <select name="year" id="year">
+        {% for available_year in available_years %}
+            <option value="{{ available_year }}" {% if available_year == selected_year %}selected{% endif %}>{{ available_year }}</option>
+        {% endfor %}
+    </select>
+    <button type="button" onclick="submitForm()">Filter</button>
+</form>
+
+<script>
+    function submitForm() {
+        document.getElementById("filterForm").submit();
+    }
+</script>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <div class="row d-flex justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Matriks</h6>
+        </div>
+    </div>
+    
+    <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered" width="100%" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>Data Dalam Bentuk Matrik</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        {% for d in data %}
+                            {{ d.evaluation_matrix}}<br>
+                        {% endfor %}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered" width="100%" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>Normalisasi Matrix</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        {% for d in data %}
+                            {{ d.normalized_decision}}<br>
+                        {% endfor %}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered" width="100%" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>Matrik Terbobot</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                    <!-- cek terbobot -->
+                        {% for d in data %}
+                            {{ d.weighted_normalized }}<br>
+                        {% endfor %}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+        </div>
+    </div>
+</div>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <div class="row d-flex justify-content-between">
+            Analisis data 
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table id="dataTable" class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                
+                <!-- head -->
+                <thead>
+                    <tr>
+                        <th>Nama</th>
+                        <th>best_distance</th>
+                        <th>worst_distance</th>
+                        <th>worst_similarity</th>
+                        <th>worst_similarity_rank</th>
+                        <th>best_similarity</th>
+                        <th>best_similarity_rank</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- row 1 -->
+                    {% for d in data %}
+                    <tr>
+                        <th>{{ d.nama }}</th>
+                        <td>{{ d.best_distance }}</td>
+                        <td>{{ d.worst_distance }}</td>
+                        <td>{{ d.worst_similarity }}</td>
+                        <td>{{ d.worst_similarity_rank }}</td>
+                        <td>{{ d.best_similarity }}</td>
+                        <td>{{ d.best_similarity_rank }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <div class="row d-flex justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Top 3 and Bottom 3 Records</h6>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered" width="100%" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>Top 3 - best_similarity_rank</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for d in data|dictsortreversed:"best_similarity_rank"|slice:":3" %}
+                <tr>
+                    <td>{{ d.nama }} - {{ d.best_similarity_rank }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <table class="table table-bordered" width="100%" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>Bottom 3 - worst_similarity_rank</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for d in data|dictsort:"worst_similarity_rank"|slice:":3" %}
+                <tr>
+                    <td>{{ d.nama }} - {{ d.worst_similarity_rank }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <table class="table table-bordered" width="100%" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>RANK</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for d in data|dictsortreversed:"best_similarity_rank"|slice:":3" %}
+                <tr>
+                    <td>{{ d.nama }} - {{ d.best_similarity_rank }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}
+
+
+

@@ -1,0 +1,143 @@
+
+{% extends 'wakil.html' %}
+{% load static %}
+{% block content %}
+
+<form id="filterForm" method="GET" action="{% url 'analyze_wakil' %}">
+    <!-- Pilihan tahun -->
+    <select name="year" id="year">
+        {% for available_year in available_years %}
+            <option value="{{ available_year }}" {% if available_year == selected_year %}selected{% endif %}>{{ available_year }}</option>
+        {% endfor %}
+    </select>
+    <button type="button" onclick="submitForm()">Filter</button>
+</form>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <div class="row d-flex justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Hasil Analisis</h6>
+            <button class="btn btn-primary" onclick="cetakTabel()">Cetak</button>
+        </div>
+    </div>
+    
+    <div class="card-body" id="printArea">
+        <!-- ____________________________________________________________________________________________________________________________________________________________________ -->
+        <!-- <strong>=========================================================================================================================================</strong> -->
+        <hr style="border-top: 1.5px solid black;">
+        <img src="{% static 'img/logo.png' %}" alt="Logo" style="float: left; max-width: 100px;">
+        <img src="{% static 'img/Lambang_Kabupaten_Siak.png' %}" alt="Logo" style="float: right; max-width: 80px;">
+        <strong style="display: block; margin: 0 auto; text-align: center; font-size:24px;">SURAT PERNYATAAN PENERIMA BEASISWA</strong>
+        <strong style="display: block; margin: 0 auto; text-align: center; font-size:16px;">SMA NEGERI 3 TUALANG</strong>
+        <p style="display: block; margin: 0 auto; text-align: center;">JL. AMD Pinang Sebatang Timur, Perawang, Kabupaten Siak</p><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<p style="display: block; margin: 0 auto; text-align: center;">email: sman3tualang@gmail.com &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  nohp: 081266525522</p>
+        <!-- <strong>=========================================================================================================================================</strong> -->
+        <hr class="my-4" style="border-top: 1.5px solid black;">
+        <!-- <hr class="border my-4"> -->
+        <br>
+        
+        
+        <p>
+            Dengan hormat,
+        </p>
+        <p>
+            Kami menyampaikan hasil analisis penerima Beasiswa Bantuan Siswa Miskin (BSM) di SMA Negeri 3 Tualang. Analisis ini dilakukan dengan menggunakan metode Technique for Order of Preference by Similarity to Ideal Solution (TOPSIS) berdasarkan kriteria-kriteria yang telah ditentukan.
+        </p>
+        Berikut adalah data calon penerima beasiswa BSM yang sudah dihitung menggunakan metode Technique for Order of Preference by Similarity to Ideal Solution (TOPSIS):
+        <br>
+        <br>
+        <div class="table-responsive">
+            <table id="dataTable" class="table table-bordered" width="100%" cellspacing="0">
+                
+                <!-- head -->
+                <thead>
+                    <tr>
+                        <th>Nama</th>
+                        <th>best_distance</th>
+                        <th>worst_distance</th>
+                        <th>worst_similarity</th>
+                        <th>worst_similarity_rank</th>
+                        <th>best_similarity</th>
+                        <th>best_similarity_rank</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- row 1 -->
+                    {% for d in data %}
+                    <tr>
+                        <th>{{ d.nama }}</th>
+                        <td>{{ d.best_distance }}</td>
+                        <td>{{ d.worst_distance }}</td>
+                        <td>{{ d.worst_similarity }}</td>
+                        <td>{{ d.worst_similarity_rank }}</td>
+                        <td>{{ d.best_similarity }}</td>
+                        <td>{{ d.best_similarity_rank }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card-body">
+            <p>Berikut siswa yang berhak menerima beasiswa BSM di SMA Negeri 3 Tualang:</p>
+            <div class="table-responsive">
+                <table class="table table-bordered" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Hasil yang didapatkan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><i>Yang Berhak Menerima Beasiswa Bantuan Siswa Miskin di SMA Negeri 3 Tualang berdasarkan perhitungan metode topsis diatas adalah: </i></td>
+                            {% for d in data|dictsort:"worst_similarity_rank"|slice:":3" %}
+                                <tr>
+                                    <td><strong>{{ d.nama }} - {{ d.worst_similarity_rank }}</strong></td>
+                                </tr>
+                            {% endfor %}
+                        </tr>
+                    </tbody>
+                </table>
+
+                <table width="100%">
+                    <thead>
+                        <tr>
+                            <th>Demikian hasil analisis penerima beasiswa bantuan siswa miskin (BSM) di SMA Negeri 3 Tualang dan dapat dipergunakan sebagaimana mestinya.</th>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><br> <br></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="text-align: end;">
+                            <td>Perawang,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2024</td>
+                            <!-- <td><br><br>Kepala Sekolah</td> -->
+                            <td colspan="2"><br> <br> <br> <br> <br> <br><br><br><br><br><br><br></td>
+                        </tr>
+                       
+                        <tr style="text-align: end;">
+                            <td><strong><u>HERMAYANTI, S.PD</u></strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function cetakTabel() {
+            var printContents = document.getElementById('printArea').innerHTML;
+            var originalContents = document.body.innerHTML;
+
+            document.body.innerHTML = printContents;
+
+            window.print();
+
+            document.body.innerHTML = originalContents;
+        }
+        function submitForm() {
+            document.getElementById('filterForm').submit();
+        }
+    </script>
+
+{% endblock %}

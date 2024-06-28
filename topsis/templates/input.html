@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <div class="row d-flex justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Add User</h6>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            {% if messages %}
+                <ul>
+                    {% for message in messages %}
+                        <li {% if message.tags %} class="{{ message.tags}}" {% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            <form action="" method="post">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="form-group row">
+                        <label for="{{ field.id_for_label }}" class="col-sm-4 col-form-label">{{ field.label }}</label>
+                        <div class="col-sm-8">
+                            {{ field }}
+                        </div>
+                    </div>
+                {% endfor %}
+                <div class="form-group row">
+                    <div class="col-sm-12">
+                        <button type="submit" class="btn btn-info">Input Data</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

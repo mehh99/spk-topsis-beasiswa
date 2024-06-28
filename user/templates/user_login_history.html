@@ -1,0 +1,27 @@
+<!-- templates/user_login_history.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Login History for {{ user.username }}</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Login Time</th>
+            <th>Status</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        {% for entry in login_history %}
+        <tr>
+            <td>{{ entry.login_time }}</td>
+            <td>{% if entry.success %}Success{% else %}Failure{% endif %}</td>
+
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="{% url 'user' %}">Back to User List</a>
+{% endblock %}

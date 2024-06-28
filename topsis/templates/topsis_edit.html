@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <h2>Edit Data</h2>
+    <hr>
+    <form action="{% url 'topsis.update' category.id %}" method="post">
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="form-group row">
+            <label for="{{ field.id_for_label }}" class="col-sm-4 col-form-label">{{ field.label }}</label>
+            <div class="col-sm-8">
+                {{ field }}
+            </div>
+        </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-warning">Update</button>
+    </form>
+</div>
+{% endblock %}

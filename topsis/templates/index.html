@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <div class="row d-flex justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Input Data</h6>
+            <a class="btn btn-primary" style="float: right;" href="{% url 'input' %}">Add Data</a>
+        </div>
+    </div>
+    <div class="card-body">
+        <form id="filterForm" method="GET" action="{% url 'index' %}">
+            <!-- Pilihan tahun -->
+            <select name="year" id="year">
+                {% for available_year in available_years %}
+                    <option value="{{ available_year }}" {% if available_year == selected_year %}selected{% endif %}>{{ available_year }}</option>
+                {% endfor %}
+            </select>
+            <button type="button" onclick="submitForm()">Filter</button>
+        </form>
+
+        <div class="table-responsive">
+            <table id="dataTable" class="table table-bordered" width="100%" cellspacing="0">
+                <!-- head -->
+                <thead>
+                    <tr>
+                        {% for f in field_names %}
+                            <th>{{ f }}</th>
+                        {% endfor %}
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- row 1 -->
+                    {% for d in data %}
+                        <tr>
+                            <th>{{ d.id }}</th>
+                            <td>{{ d.nama }}</td>
+                            <td>{{ d.get_surat_keterangan_tidak_mampu_display }}</td>
+                            <td>{{ d.get_kondisi_rumah_display }}</td>
+                            <td>{{ d.get_keaktifan_ekstrakurikuler_display }}</td>
+                            <td>{{ d.get_penghasilan_display }}</td>
+                            <td>{{ d.get_tanggungan_display }}</td>
+                            <td>{{ d.get_keterangan_display }}</td>
+                            <td>{{ d.tahun }}</td>
+                            <td>
+                                <a href="{% url 'edit' d.id%}" class="btn btn-warning" onclick="return confirm('Are you sure edit?')"><i class="fa fa-edit"></i> </a> <a href="{% url 'topsis.delete' d.id %}"
+                                    class="btn btn-danger" onclick="return confirm('Are you sure delete?')"><i
+                                        class="far fa-trash-alt"></i> </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    function submitForm() {
+        document.getElementById("filterForm").submit();
+    }
+</script>
+
+{% endblock %}

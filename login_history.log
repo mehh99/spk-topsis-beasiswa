@@ -1,0 +1,38 @@
+2024-01-25 21:19:28,895 [WARNING] Not Found: /favicon.ico
+2024-01-25 21:21:08,778 [INFO] C:\Users\LENOVO\Desktop\SKRIPSI\program-topsis-django\core\login\views.py changed, reloading.
+2024-01-25 21:21:40,215 [WARNING] Login failed - User: iqbal
+2024-01-25 21:21:46,099 [WARNING] Login failed - User: iqbal
+2024-01-25 21:21:56,684 [WARNING] Login failed - User: iqbal
+2024-01-25 21:22:06,290 [WARNING] Login failed - User: iqbal
+2024-01-25 21:22:28,159 [INFO] Login success - User: admin
+2024-01-25 21:22:39,785 [WARNING] Not Found: /favicon.ico
+2024-01-25 21:25:32,098 [INFO] C:\Users\LENOVO\Desktop\SKRIPSI\program-topsis-django\core\login\models.py changed, reloading.
+2024-01-25 21:28:58,422 [ERROR] Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Users\LENOVO\Desktop\SKRIPSI\program-topsis-django\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\LENOVO\Desktop\SKRIPSI\program-topsis-django\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\LENOVO\Desktop\SKRIPSI\program-topsis-django\core\login\views.py", line 106, in user_login
+    if handle_login(username, password):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: handle_login() missing 1 required positional argument: 'password'
+2024-01-25 21:29:07,916 [ERROR] Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Users\LENOVO\Desktop\SKRIPSI\program-topsis-django\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\LENOVO\Desktop\SKRIPSI\program-topsis-django\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\LENOVO\Desktop\SKRIPSI\program-topsis-django\core\login\views.py", line 106, in user_login
+    if handle_login(username, password):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: handle_login() missing 1 required positional argument: 'password'
+2024-01-25 21:32:21,172 [INFO] C:\Users\LENOVO\Desktop\SKRIPSI\program-topsis-django\core\login\views.py changed, reloading.
+2024-01-25 21:32:29,536 [INFO] C:\Users\LENOVO\Desktop\SKRIPSI\program-topsis-django\core\login\views.py changed, reloading.
+2024-01-25 21:32:47,351 [WARNING] Not Found: /favicon.ico
+2024-01-25 21:33:07,796 [WARNING] Not Found: /favicon.ico
+2024-01-25 21:33:16,352 [INFO] C:\Users\LENOVO\Desktop\SKRIPSI\program-topsis-django\core\login\views.py changed, reloading.
